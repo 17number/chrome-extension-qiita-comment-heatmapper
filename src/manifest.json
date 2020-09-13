@@ -1,8 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "0 - webpack babel template",
-  "short_name": "webpack babel template",
-  "description": "webpack babel template",
+  "name": "Qiita comment heatmapper",
   "version": "0.0.1",
   "author": "17num",
 
@@ -16,7 +14,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.google.com/*"
+        "https://qiita.com/*/items/*"
       ],
       "js": [
         "content.js"
