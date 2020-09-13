@@ -33,8 +33,5 @@
     "webpack-extension-reloader": "^1.1.4",
     "webpack-merge": "^5.1.4"
   },
-  "dependencies": {
-    "axios": "^0.19.2",
-    "moment": "^2.27.0"
-  }
+  "dependencies": {}
 }
