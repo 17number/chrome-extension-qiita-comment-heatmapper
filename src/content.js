@@ -51,6 +51,62 @@ const setBackgroundColor = (comment, likeNum, colorsDelta) => {
   comment.querySelector('.co-Item_footer').style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 };
 
+const setDataAttributesForReordering = (comment, likeNum, i) => {
+  comment.dataset.originalOrder = i;
+  comment.dataset.likeNum = likeNum;
+};
+
+const appendButtonToReOrderComments = () => {
+  const commentsHeading = document.querySelector('#comments .co-ItemWrapper_title');
+  if (!commentsHeading || commentsHeading?.querySelector('button')) {
+    return;
+  }
+
+  commentsHeading.insertAdjacentHTML(
+    'beforeEnd',
+    `<button class="qch-order-btn" data-order="timestamp">LGTM順に並びかえ</button>`
+  );
+  commentsHeading.querySelector('button').addEventListener('click', toggleCommentsOrder);
+};
+
+const toggleCommentsOrder = (e) => {
+  if (e.target.dataset.order === 'timestamp') {
+    orderByLikeNum();
+    e.target.classList.add('qch-order-btn-lgtm');
+    e.target.dataset.order = 'like';
+    e.target.textContent = '時系列順に並びかえ';
+  } else {
+    orderByCommentTime();
+    e.target.classList.remove('qch-order-btn-lgtm');
+    e.target.dataset.order = 'timestamp';
+    e.target.textContent = 'LGTM順に並びかえ';
+  }
+};
+
+const orderByCommentTime = () => {
+  const comments = getComments()
+    .sort((a, b) => Number(a.dataset.originalOrder) > Number(b.dataset.originalOrder) ? 1 : -1);
+
+  reOrder(comments);
+}
+
+const orderByLikeNum = () => {
+  const comments = getComments()
+    .sort((a, b) => Number(a.dataset.likeNum) > Number(b.dataset.likeNum) ? -1 : 1);
+
+  reOrder(comments);
+}
+
+const reOrder = (comments) => {
+  comments.forEach((comment, i) => {
+    if (i >= comments.length - 1 || !comments[i + 1]) {
+      return;
+    }
+
+    comment.after(comments[i + 1]);
+  });
+}
+
 const main = async () => {
   await waitCommentLoaded();
   const comments = getComments();
@@ -65,9 +121,12 @@ const main = async () => {
     return;
   }
 
+  appendButtonToReOrderComments();
+
   const colorsDelta = calcColorsDelta(maxLikeNum);
   comments.forEach((comment, i) => {
     const likeNum = likes[i];
+    setDataAttributesForReordering(comment, likeNum, i);
     if (likeNum === 0) {
       return;
     }

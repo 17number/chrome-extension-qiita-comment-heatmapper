@@ -1,0 +1,10 @@
+button.qch-order-btn {
+  background-color: #fff;
+  padding: 4px 12px;
+  margin-left: 10px;
+  cursor: pointer;
+
+  &.qch-order-btn-lgtm {
+    background-color: rgba(85, 197, 0, 0.3);
+  }
+}
