@@ -1,6 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Qiita comment heatmapper",
+  "description": " Qiita のコメント欄に以下の機能を追加する拡張機能。\n\n- LGTM数に応じてコメント欄フッター部に背景色を設定\n- LGTM数順/時系列順 でコメント欄を並び替え",
   "version": "0.0.1",
   "author": "17num",
 
@@ -44,7 +45,5 @@
     "icons/*"
   ],
 
-  "permissions": [
-    "tabs"
-  ]
+  "permissions": []
 }
